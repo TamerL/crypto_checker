@@ -1,0 +1,49 @@
+name: Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  Build:
+    name: 'Build and test the webserver container'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.18
+  
+    - name: Build
+      run: go build -v ./...
+
+    - name: Test
+      run: go test -v ./...
+      
+  Push:
+    needs: Build
+    name: 'Tag and Push to Docker Hub'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.18
+
+    - name: Docker Login
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}   
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+    - name: Tag and Build Docker Container
+      run: ls && docker build . -t 20002021/crypto_checker:1.0.0
+      
+    - name: Push to Docker Hub
+      run: |
+        docker push 20002021/crypto_checker:1.0.0
