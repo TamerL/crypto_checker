@@ -29,6 +29,7 @@ actions
 
 ## Summary of implementations:
 - [✓] Webservice for crypto currency spot price
+- [✓] /health endpoint that returns 200 ok
 - [✓] Testing code to test the different success and failure scenarios
 - [✓] Github actions pipeline to build, test, push and deploy the app
 - [✓] AWS automated deployment on EKS 
