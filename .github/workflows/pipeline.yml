@@ -5,6 +5,22 @@ on:
     branches: [ main ]
 
 jobs:
+
+  slackBuildNotification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: general
+        SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+        SLACK_ICON: https://avatars.githubusercontent.com/u/1128320?s=48&v=4
+        SLACK_MESSAGE: 'Pipeline Build stage started:rocket: <https://github.com/TamerL/crypto_checker/actions|Click here> for details!'
+        SLACK_TITLE: 'Pipeline Build stage started'
+        SLACK_USERNAME: Tamer
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        
   Build:
     name: 'Build and test the webserver container'
     runs-on: ubuntu-latest
@@ -22,6 +38,21 @@ jobs:
     - name: Test
       run: go test -v ./...
       
+  slackPushNotification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: general
+        SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+        SLACK_ICON: https://avatars.githubusercontent.com/u/1128320?s=48&v=4
+        SLACK_MESSAGE: 'Pipeline Push stage started:rocket: <https://github.com/TamerL/crypto_checker/actions|Click here> for details!'
+        SLACK_TITLE: 'Pipeline Push stage started'
+        SLACK_USERNAME: Tamer
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
   Push:
     needs: Build
     name: 'Tag and Push to Docker Hub'
@@ -47,6 +78,21 @@ jobs:
     - name: Push to Docker Hub
       run: |
         docker push 20002021/crypto_checker:1.0.0
+
+  slackDeployNotification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: general
+        SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+        SLACK_ICON: https://avatars.githubusercontent.com/u/1128320?s=48&v=4
+        SLACK_MESSAGE: 'Pipeline Deploy stage started:rocket: <https://github.com/TamerL/crypto_checker/actions|Click here> for details!'
+        SLACK_TITLE: 'Pipeline Deploy stage started'
+        SLACK_USERNAME: Tamer
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
   Deploy:
     needs: Push  
