@@ -39,6 +39,7 @@ jobs:
       run: go test -v ./...
       
   slackPushNotification:
+    needs: Build
     name: Slack Notification
     runs-on: ubuntu-latest
     steps:
@@ -80,6 +81,7 @@ jobs:
         docker push 20002021/crypto_checker:1.0.0
 
   slackDeployNotification:
+    needs: Push
     name: Slack Notification
     runs-on: ubuntu-latest
     steps:
