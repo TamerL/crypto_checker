@@ -39,7 +39,7 @@ jobs:
       run: go test -v ./...
       
   slackPushNotification:
-    needs: Build
+    needs: Build_Test
     name: Slack Notification - Push 
     runs-on: ubuntu-latest
     steps:
@@ -55,7 +55,7 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
   Push:
-    needs: Build
+    needs: Build_Test
     name: 'Tag and Push to Docker Hub'
     runs-on: ubuntu-latest
     steps:
