@@ -137,7 +137,7 @@ jobs:
       run: cd terraform && terraform apply -auto-approve -input=false
 
   slackDeployedNotification:
-    needs: Push
+    needs: Deploy
     name: Slack Notification - App Ready
     runs-on: ubuntu-latest
     steps:
