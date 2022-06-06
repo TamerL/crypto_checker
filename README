@@ -4,7 +4,7 @@ Part 1) Using the language of your choice, create a simple
 webservice that returns a json object containing spot price
 data from coinbase
 (https://api.coinbase.com/v2/prices/spot?currency=USD) on
-requests to `/&lt;currency&gt;`.
+requests to `/currency`.
 The endpoint should minimally support: EUR, GBP, USD and JPY.
 This service should be run in a container. The container
 should be built via github actions.
@@ -29,10 +29,13 @@ actions
 
 ## Summary of implementations:
 - [✓] Webservice for crypto currency spot price
-- [✓] Testing code to test the different success and failure scenarios
+- [✓] Testing code to test the webservice response to different inputs
+- [✓] Include /health endpoint
 - [✓] Github actions pipeline to build, test, push and deploy the app
-- [✓] AWS automated deployment on EKS 
+- [✓] AWS automated deployment on EKS cluster
 - [✓] Infrastructure as Code using Terraform
 - [✓] Slack Notifications implemented in Github actions pipeline 
+- [✓] Helm Chart configuration template folder
 
-webservice_lb_ip = "a54303eae89924098ba1514e0f6fdbf2-2052304188.ap-southeast-2.elb.amazonaws.com"
+## Application URL: 
+The webservice URL can be found from the pipeline output at the end of deploy stage

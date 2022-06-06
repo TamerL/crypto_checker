@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{.Values.name}}"
+  namespace: default
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - nodePort: 32372
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    App: "{{.Values.name}}"
+  sessionAffinity: None
+  type: LoadBalancer

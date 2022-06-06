@@ -47,7 +47,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		// return 'not found' for empty calls without currency
 	} else if endpoint == "" {
 		w.WriteHeader(http.StatusNotFound)
-		err := errors.New("please append endpoint: USD or EUR or GBP or JPY")
+		err := errors.New("please append endpoint: /USD or /EUR or /GBP or /JPY or /health")
 		http.Error(w, err.Error(), 404)
 		// return 'method not allowed' for wrong endpoints
 	} else {

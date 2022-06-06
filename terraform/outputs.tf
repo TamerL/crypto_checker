@@ -33,6 +33,6 @@ output "cluster_name" {
   value       = local.cluster_name
 }
 
-output "lb_ip" {
-  value = kubernetes_service.cryptochecker.status.0.load_balancer.0.ingress.0.hostname
+output "webservice_url" {
+  value = kubernetes_service.crypto-checker.status.0.load_balancer.0.ingress.0.hostname
 }

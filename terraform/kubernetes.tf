@@ -22,11 +22,11 @@ provider "kubernetes" {
 }
 
 
-resource "kubernetes_deployment" "cryptochecker" {
+resource "kubernetes_deployment" "crypto-checker" {
   metadata {
-    name = "cryptochecker"
+    name = "crypto-checker"
     labels = {
-      App = "cryptochecker"
+      App = "crypto-checker"
     }
   }
 
@@ -34,19 +34,19 @@ resource "kubernetes_deployment" "cryptochecker" {
     replicas = 2
     selector {
       match_labels = {
-        App = "cryptochecker"
+        App = "crypto-checker"
       }
     }
     template {
       metadata {
         labels = {
-          App = "cryptochecker"
+          App = "crypto-checker"
         }
       }
       spec {
         container {
           image = "20002021/crypto_checker:1.0.0"
-          name  = "cryptochecker"
+          name  = "crypto-checker"
 
           port {
             container_port = 8080
@@ -68,13 +68,13 @@ resource "kubernetes_deployment" "cryptochecker" {
   }
 }
 
-resource "kubernetes_service" "cryptochecker" {
+resource "kubernetes_service" "crypto-checker" {
   metadata {
-    name = "cryptochecker"
+    name = "crypto-checker"
   }
   spec {
     selector = {
-      App = kubernetes_deployment.cryptochecker.spec.0.template.0.metadata[0].labels.App
+      App = kubernetes_deployment.crypto-checker.spec.0.template.0.metadata[0].labels.App
     }
     port {
       port        = 80

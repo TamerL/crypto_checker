@@ -7,7 +7,7 @@ on:
 jobs:
 
   slackBuildNotification:
-    name: Slack Notification
+    name: Slack Notification - Build_Test
     runs-on: ubuntu-latest
     steps:
     - name: Slack Notification
@@ -16,12 +16,12 @@ jobs:
         SLACK_CHANNEL: general
         SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
         SLACK_ICON: https://avatars.githubusercontent.com/u/1128320?s=48&v=4
-        SLACK_MESSAGE: 'Pipeline Build stage started:rocket: <https://github.com/TamerL/crypto_checker/actions|Click here> for details!'
-        SLACK_TITLE: 'Pipeline Build stage started'
+        SLACK_MESSAGE: 'Pipeline Build & Test stage started:rocket: <https://github.com/TamerL/crypto_checker/actions|Click here> for details!'
+        SLACK_TITLE: 'Pipeline Build & Test stage started'
         SLACK_USERNAME: Tamer
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         
-  Build:
+  Build_Test:
     name: 'Build and test the webserver container'
     runs-on: ubuntu-latest
     steps:
@@ -40,7 +40,7 @@ jobs:
       
   slackPushNotification:
     needs: Build
-    name: Slack Notification
+    name: Slack Notification - Push 
     runs-on: ubuntu-latest
     steps:
     - name: Slack Notification
@@ -82,7 +82,7 @@ jobs:
 
   slackDeployNotification:
     needs: Push
-    name: Slack Notification
+    name: Slack Notification - Deploy
     runs-on: ubuntu-latest
     steps:
     - name: Slack Notification
@@ -135,3 +135,19 @@ jobs:
     - name: Terraform Apply
       # if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
       run: cd terraform && terraform apply -auto-approve -input=false
+
+  slackDeployedNotification:
+    needs: Push
+    name: Slack Notification - App Ready
+    runs-on: ubuntu-latest
+    steps:
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: general
+        SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+        SLACK_ICON: https://avatars.githubusercontent.com/u/1128320?s=48&v=4
+        SLACK_MESSAGE: 'The has been deployed:rocket: <https://github.com/TamerL/crypto_checker/actions|Click here> for details!'
+        SLACK_TITLE: 'Pipeline finished successfully'
+        SLACK_USERNAME: Tamer
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
